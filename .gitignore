@@ -1,0 +1,21 @@
+# Node.js dependencies
+node_modules/
+
+# Local Environment variables (contains private credentials/keys)
+.env
+.env.local
+
+# Local file uploads (keep only placeholder)
+uploads/*
+!uploads/.gitkeep
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor & OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
