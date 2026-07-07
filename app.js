@@ -7,6 +7,7 @@ import compression from 'compression';
 import { rateLimit } from 'express-rate-limit';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import fs from 'fs';
 
 import errorHandler from './middleware/errorHandler.js';
 
@@ -99,11 +100,16 @@ app.use('/api/*', (req, res) => {
 // Serve frontend static build in production
 if (process.env.NODE_ENV === 'production') {
   const clientBuildPath = path.join(__dirname, '../client/dist');
-  app.use(express.static(clientBuildPath));
-
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(clientBuildPath, 'index.html'));
-  });
+  if (fs.existsSync(clientBuildPath)) {
+    app.use(express.static(clientBuildPath));
+    app.get('*', (req, res) => {
+      res.sendFile(path.join(clientBuildPath, 'index.html'));
+    });
+  } else {
+    app.get('/', (req, res) => {
+      res.json({ success: true, message: 'Advocate Mubashir Alam Portfolio API is running...' });
+    });
+  }
 }
 
 // 9. Central Error Handler Middleware
